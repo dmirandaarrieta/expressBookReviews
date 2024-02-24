@@ -2,6 +2,7 @@ const express = require('express');
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
+const axios = require('axios').default;
 const public_users = express.Router();
 
 
@@ -73,5 +74,46 @@ public_users.get('/review/:isbn',function (req, res) {
   res.send(review);
   //return res.status(300).json({message: "Yet to be implemented"});
 });
-
+const getBooks = new Promise((resolve,reject) => {
+  
+     resolve (books);
+    
+    });
+const getBookByISBN = (isbn) =>{
+    const req = axios.get(isbn);
+    console.log(isbn);
+    req.then(resp =>{
+        console.log(books[isbn]);
+    })
+    .catch(err=>{
+        console.log("reejected");
+    });
+}
+const getBookByAutor = (autor) =>{
+    const req = axios.get(autor);
+    console.log(author);
+    req.then(resp =>{
+     
+        for(let i=1; i<= 10; i++){
+           if(books[i].author === author )
+              console.log(books[i]);
+    }})
+    .catch(err=>{
+        console.log("reejected");
+    });
+}
+const getBookByTitle = (title) =>{
+    const req = axios.get(title);
+    console.log(author);
+    req.then(resp =>{
+     
+        for(let i=1; i<= 10; i++){
+           if(books[i].title === title )
+              console.log(books[i]);
+    }})
+    .catch(err=>{
+        console.log("reejected");
+    });
+}
+console.log(getBooks);
 module.exports.general = public_users;
